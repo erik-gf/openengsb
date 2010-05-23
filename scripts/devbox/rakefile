@@ -26,3 +26,11 @@ NEW_COOKBOOK_LICENSE = :apachev2
 SSL_EMAIL_ADDRESS = ''
 
 load 'chef/tasks/chef_repo.rake'
+
+task :shutdown do
+  env = Vagrant::Environment.load!
+  env.require_persisted_vm
+  env.ssh.execute do |ssh|
+    ssh.exec('sudo shutdown -h now')
+  end
+end
