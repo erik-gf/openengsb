@@ -34,3 +34,18 @@ task :shutdown do
     ssh.exec('sudo shutdown -h now')
   end
 end
+
+desc 'Runs a cookbook in the vagrant vm'
+task :run_cookbook, :cookbook do |t, args|
+  f = Tempfile.new('.tmp', TOPDIR)
+  tf = File.new(f.path, 'w')
+  h = {'instance_role' => 'vagrant', 'run_list' => ["recipe[#{args.cookbook}]"]}
+  tf.puts h.to_json
+  tf.close
+  env = Vagrant::Environment.load!
+  env.require_persisted_vm
+  env.ssh.execute do |ssh|
+    ssh.exec("(cd /vagrant; sudo chef-solo -c solo.rb -j #{Pathname.new(f.path).basename})")
+  end
+  f.close
+end
