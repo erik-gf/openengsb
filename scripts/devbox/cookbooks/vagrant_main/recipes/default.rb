@@ -15,4 +15,5 @@
 #
 
 include_recipe 'java'
+include_recipe 'exist'
 include_recipe 'servicemix'
