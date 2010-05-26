@@ -28,8 +28,6 @@ unless FileTest.exists?(node[:exist][:install_path])
   template "#{node[:exist][:install_path]}/bin/functions.d/eXist-settings.sh" do
     source 'eXist-settings.sh.erb'
     mode 766
-    owner 'root'
-    group 'root'
     variables(
       :jetty_port => node[:exist][:jetty_port]
     )
