@@ -23,7 +23,7 @@ unless FileTest.exists?(node[:guvnor][:install_path])
   end
 
   bash 'unzip-guvnor' do
-    code "cd /srv; unzip /tmp/guvnor.zip; mv jboss-#{node[:guvnor][:jboss_version]} #{node[:guvnor][:install_path]}"
+    code "cd /tmp; unzip /tmp/guvnor.zip; mv jboss-#{node[:guvnor][:jboss_version]} #{node[:guvnor][:install_path]}"
   end
 
   template "#{node[:guvnor][:install_path]}/server/default/deploy/jboss-web.deployer/server.xml" do
