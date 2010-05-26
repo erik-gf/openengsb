@@ -28,4 +28,9 @@ unless FileTest.exists?(node[:servicemix][:install_path])
   bash 'install-smx' do
     code "mv /tmp/apache-servicemix-#{node[:servicemix][:version]} #{node[:servicemix][:install_path]}"
   end
+
+  remote_file "#{node[:servicemix][:install_path]}/bin/servicemix" do
+    source "servicemix"
+    mode 0755
+  end
 end
