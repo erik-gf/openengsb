@@ -21,12 +21,12 @@ unless FileTest.exists?(node[:servicemix][:install_path])
     source node[:servicemix][:install_file]
   end
 
-  bash 'untar-smx' do
-    code '(cd /tmp; tar xzf smx.tar.gz)'
-  end
-
   bash 'install-smx' do
-    code "mv /tmp/apache-servicemix-#{node[:servicemix][:version]} #{node[:servicemix][:install_path]}"
+    cwd '/tmp'
+    code <<-EOB
+      tar xzf smx.tar.gz
+      mv apache-servicemix-#{node[:servicemix][:version]} #{node[:servicemix][:install_path]}
+      EOB
   end
 
   remote_file "#{node[:servicemix][:install_path]}/bin/servicemix" do

@@ -22,12 +22,13 @@ unless FileTest.exists?(node[:exist][:install_path])
   end
 
   bash 'install-exist' do
-    code "(cd /tmp; java -jar exist.jar -p #{node[:exist][:install_path]})"
+    cwd '/tmp'
+    code "java -jar exist.jar -p #{node[:exist][:install_path]}"
   end
 
   template "#{node[:exist][:install_path]}/bin/functions.d/eXist-settings.sh" do
     source 'eXist-settings.sh.erb'
-    mode 766
+    mode 755
     variables(
       :jetty_port => node[:exist][:jetty_port]
     )

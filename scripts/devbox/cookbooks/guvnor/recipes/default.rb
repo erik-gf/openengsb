@@ -23,7 +23,11 @@ unless FileTest.exists?(node[:guvnor][:install_path])
   end
 
   bash 'unzip-guvnor' do
-    code "cd /tmp; unzip /tmp/guvnor.zip; mv jboss-#{node[:guvnor][:jboss_version]} #{node[:guvnor][:install_path]}"
+    cwd '/tmp'
+    code <<-EOB
+      unzip guvnor.zip
+      mv jboss-#{node[:guvnor][:jboss_version]} #{node[:guvnor][:install_path]}
+      EOB
   end
 
   bash 'set execute bit on guvnor run script' do
