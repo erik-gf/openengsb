@@ -14,10 +14,14 @@
 # limitations under the License.
 #
 
-package 'openjdk-6-jre-headless' do
-  action :install
+unless FileTest.exist?('/usr/bin/java')
+  package 'openjdk-6-jre-headless' do
+    action :install
+  end
 end
 
-package 'openjdk-6-jdk' do
-  action :install
+unless FileTest.exist?('/usr/bin/javac')
+  package 'openjdk-6-jdk' do
+    action :install
+  end
 end
