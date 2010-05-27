@@ -26,6 +26,10 @@ unless FileTest.exists?(node[:guvnor][:install_path])
     code "cd /tmp; unzip /tmp/guvnor.zip; mv jboss-#{node[:guvnor][:jboss_version]} #{node[:guvnor][:install_path]}"
   end
 
+  bash 'set execute bit on guvnor run script' do
+    code "chmod +x #{node[:guvnor][:install_path]}/bin/run.sh"
+  end
+
   template "#{node[:guvnor][:install_path]}/server/default/deploy/jboss-web.deployer/server.xml" do
     source 'server.xml.erb'
     variables(
