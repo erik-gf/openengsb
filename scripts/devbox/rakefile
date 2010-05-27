@@ -15,8 +15,9 @@
 #
 
 require 'rubygems'
-require 'json'
 require 'chef'
+require 'json'
+require 'pathname'
 require 'vagrant'
 
 TOPDIR = File.expand_path(File.dirname(__FILE__))
@@ -35,17 +36,54 @@ task :shutdown do
   end
 end
 
-desc 'Runs a cookbook in the vagrant vm'
-task :run_cookbook, :cookbook do |t, args|
-  f = Tempfile.new('.tmp', TOPDIR)
-  tf = File.new(f.path, 'w')
+desc 'Run a cookbook in the vagrant vm'
+task :remote_cookbook, :cookbook do |t, args|
   h = {'instance_role' => 'vagrant', 'run_list' => ["recipe[#{args.cookbook}]"]}
-  tf.puts h.to_json
-  tf.close
+  tmp = write_chef_json_tmp(h)
   env = Vagrant::Environment.load!
   env.require_persisted_vm
   env.ssh.execute do |ssh|
-    ssh.exec("(cd /vagrant; sudo chef-solo -c solo.rb -j #{Pathname.new(f.path).basename})")
+    ssh.exec("(cd /vagrant; sudo chef-solo -c solo.rb -j #{Pathname.new(tmp.path).basename})")
   end
-  f.close
+  tmp.close
+end
+
+def write_chef_json_tmp(hash)
+  f = Tempfile.new('.tmp', TOPDIR)
+  tf = File.new(f.path, 'w')
+  tf.puts hash.to_json
+  tf.close
+  f
+end
+
+def write_chef_config_tmp
+  f = Tempfile.new('.tmp', TOPDIR)
+  tf = File.new(f.path, 'w')
+  p = Pathname.new('.').expand_path
+  tf.puts "file_cache_path \"#{p}\""
+  tf.puts "cookbook_path \"#{p.join('cookbooks')}\""
+  tf.puts "role_path []"
+  tf.puts "log_level :info"
+  tf.close
+  f
+end
+
+desc 'Do a local install of needed services'
+task :local_install, :install_path do |t, args|
+  tp = Pathname.new('/var/chef')
+  if !(tp.exist? and tp.readable? and tp.writable? and tp.executable?)
+    system("sudo mkdir -p #{tp}; sudo chmod 777 #{tp}")
+  end
+  p = Pathname.new(args.install_path).expand_path
+  p.mkpath
+  h = { 'instance_role' => 'vagrant',
+        'run_list' => ["recipe[local_install]"],
+        'exist' => {'install_path' => p.join('exist')},
+        'guvnor' => {'install_path' => p.join('guvnor')},
+        'servicemix' => {'install_path' => p.join('servicemix')} }
+  jsontmp = write_chef_json_tmp(h)
+  configtmp = write_chef_config_tmp
+  system("chef-solo -c #{configtmp.path} -j #{jsontmp.path}")
+  jsontmp.close
+  configtmp.close
 end
