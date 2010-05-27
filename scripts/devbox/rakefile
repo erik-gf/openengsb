@@ -39,13 +39,15 @@ end
 desc 'Run a cookbook in the vagrant vm'
 task :remote_cookbook, :cookbook do |t, args|
   h = {'instance_role' => 'vagrant', 'run_list' => ["recipe[#{args.cookbook}]"]}
-  tmp = write_chef_json_tmp(h)
+  jsontmp = write_chef_json_tmp(h)
+  configtmp = write_chef_config_tmp('/vagrant')
   env = Vagrant::Environment.load!
   env.require_persisted_vm
   env.ssh.execute do |ssh|
-    ssh.exec("(cd /vagrant; sudo chef-solo -c solo.rb -j #{Pathname.new(tmp.path).basename})")
+    ssh.exec("(cd /vagrant; sudo chef-solo -c #{Pathname.new(configtmp.path).basename} -j #{Pathname.new(jsontmp.path).basename})")
   end
-  tmp.close
+  jsontmp.close
+  configtmp.close
 end
 
 def write_chef_json_tmp(hash)
@@ -56,10 +58,10 @@ def write_chef_json_tmp(hash)
   f
 end
 
-def write_chef_config_tmp
+def write_chef_config_tmp(dir)
   f = Tempfile.new('.tmp', TOPDIR)
   tf = File.new(f.path, 'w')
-  p = Pathname.new('.').expand_path
+  p = Pathname.new(dir).expand_path
   tf.puts "file_cache_path \"#{p}\""
   tf.puts "cookbook_path \"#{p.join('cookbooks')}\""
   tf.puts "role_path []"
@@ -82,7 +84,7 @@ task :local_install, :install_path do |t, args|
         'guvnor' => {'install_path' => p.join('guvnor')},
         'servicemix' => {'install_path' => p.join('servicemix')} }
   jsontmp = write_chef_json_tmp(h)
-  configtmp = write_chef_config_tmp
+  configtmp = write_chef_config_tmp('.')
   system("chef-solo -c #{configtmp.path} -j #{jsontmp.path}")
   jsontmp.close
   configtmp.close
