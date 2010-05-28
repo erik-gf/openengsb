@@ -15,7 +15,7 @@
 #
 
 maintainer       "OpenEngSB Division, Vienna University of Technology"
-maintainer_email ""
+maintainer_email "openengsb-dev@googlegroups.com"
 license          "Apache 2.0"
 description      "Installs/Configures Drools 5.0 Guvnor"
 version          "0.1"
