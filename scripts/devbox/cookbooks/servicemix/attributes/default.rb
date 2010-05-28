@@ -15,6 +15,6 @@
 #
 
 set_unless[:servicemix][:install_path]   = '/srv/servicemix'
-set_unless[:servicemix][:version]        = '4.1.0-SNAPSHOT'
-set_unless[:servicemix][:install_file]   = 'http://dev.openengsb.org/resources/servicemix41/apache-servicemix-4.1.0-SNAPSHOT.tar.gz'
+set_unless[:servicemix][:version]        = '4.2.0'
+set_unless[:servicemix][:install_file]   = "http://mirror.deri.at/apache/servicemix/servicemix-4/#{node[:servicemix][:version]}/apache-servicemix-#{node[:servicemix][:version]}.tar.gz"
 
