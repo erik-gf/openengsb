@@ -28,6 +28,7 @@ unless FileTest.exists?(node[:exist][:install_path])
 
   template "#{node[:exist][:install_path]}/bin/functions.d/eXist-settings.sh" do
     source 'eXist-settings.sh.erb'
+    backup false
     mode 755
     variables(
       :jetty_port => node[:exist][:jetty_port]

@@ -36,6 +36,7 @@ unless FileTest.exists?(node[:guvnor][:install_path])
 
   template "#{node[:guvnor][:install_path]}/server/default/deploy/jboss-web.deployer/server.xml" do
     source 'server.xml.erb'
+    backup false
     variables(
       :web_port => node[:guvnor][:web_port]
     )
@@ -43,6 +44,7 @@ unless FileTest.exists?(node[:guvnor][:install_path])
 
   template "#{node[:guvnor][:install_path]}/server/default/conf/jboss-service.xml" do
     source 'jboss-service.xml.erb'
+    backup false
     variables(
       :jmx_port => node[:guvnor][:jmx_port]
     )
@@ -50,6 +52,7 @@ unless FileTest.exists?(node[:guvnor][:install_path])
 
   template "#{node[:guvnor][:install_path]}/server/default/conf/jboss-minimal.xml" do
     source 'jboss-minimal.xml.erb'
+    backup false
     variables(
       :jmx_port => node[:guvnor][:jmx_port]
     )
@@ -57,6 +60,7 @@ unless FileTest.exists?(node[:guvnor][:install_path])
 
   template "#{node[:guvnor][:install_path]}/server/default/deploy/jms/uil2-service.xml" do
     source 'uil2-service.xml.erb'
+    backup false
     variables(
       :jms_port => node[:guvnor][:jms_port]
     )
