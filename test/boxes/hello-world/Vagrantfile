@@ -20,5 +20,7 @@ Vagrant::Config.run do |config|
 
   config.vm.provisioner = :chef_solo
   config.chef.cookbooks_path = ["../../cookbooks", "cookbooks"]
+
+  config.vm.share_folder("m2-repo", "/var/repository", "~/.m2/repository")
 end
 
