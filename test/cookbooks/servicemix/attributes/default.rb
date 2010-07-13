@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-set_unless[:servicemix][:install_path]   = '/srv/servicemix'
-set_unless[:servicemix][:version]        = '4.2.0'
-set_unless[:servicemix][:install_file]   = "http://mirror.deri.at/apache/servicemix/servicemix-4/#{node[:servicemix][:version]}/apache-servicemix-#{node[:servicemix][:version]}.tar.gz"
+default[:servicemix][:install_path]   = '/srv/servicemix'
+default[:servicemix][:version]        = '4.2.0'
+default[:servicemix][:install_file]   = "http://mirror.deri.at/apache/servicemix/servicemix-4/#{default[:servicemix][:version]}/apache-servicemix-#{default[:servicemix][:version]}.tar.gz"
 

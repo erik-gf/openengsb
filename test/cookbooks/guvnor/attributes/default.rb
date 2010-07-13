@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 
-set_unless[:guvnor][:install_path]  = '/srv/guvnor'
-set_unless[:guvnor][:major_version] = '5.0'
-set_unless[:guvnor][:full_version]  = '5.0.1.26597.FINAL'
-set_unless[:guvnor][:jboss_version] = '4.2.3.GA'
-set_unless[:guvnor][:install_file]  = "http://download.jboss.org/drools/release/#{node[:guvnor][:full_version]}/drools-#{node[:guvnor][:major_version]}-guvnor-standalone.zip"
-set_unless[:guvnor][:web_port]      = '8081'
-set_unless[:guvnor][:jmx_port]      = '10099'
-set_unless[:guvnor][:jms_port]      = '8094'
+default[:guvnor][:install_path]  = '/srv/guvnor'
+default[:guvnor][:major_version] = '5.0'
+default[:guvnor][:full_version]  = '5.0.1.26597.FINAL'
+default[:guvnor][:jboss_version] = '4.2.3.GA'
+default[:guvnor][:install_file]  = "http://download.jboss.org/drools/release/#{default[:guvnor][:full_version]}/drools-#{default[:guvnor][:major_version]}-guvnor-standalone.zip"
+default[:guvnor][:web_port]      = '8081'
+default[:guvnor][:jmx_port]      = '10099'
+default[:guvnor][:jms_port]      = '8094'

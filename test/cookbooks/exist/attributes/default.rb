@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-set_unless[:exist][:install_path]   = '/srv/exist'
-set_unless[:exist][:major_version]  = '1.4'
-set_unless[:exist][:full_version]   = '1.4.0-rev10440'
-set_unless[:exist][:install_file]   = "http://sourceforge.net/projects/exist/files/Stable/#{node[:exist][:major_version]}/eXist-setup-#{node[:exist][:full_version]}.jar/download"
-set_unless[:exist][:jetty_port]     = '8093'
+default[:exist][:install_path]   = '/srv/exist'
+default[:exist][:major_version]  = '1.4'
+default[:exist][:full_version]   = '1.4.0-rev10440'
+default[:exist][:install_file]   = "http://sourceforge.net/projects/exist/files/Stable/#{default[:exist][:major_version]}/eXist-setup-#{default[:exist][:full_version]}.jar/download"
+default[:exist][:jetty_port]     = '8093'
