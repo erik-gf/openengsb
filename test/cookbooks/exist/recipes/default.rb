@@ -34,4 +34,14 @@ unless FileTest.exists?(node[:exist][:install_path])
       :jetty_port => node[:exist][:jetty_port]
     )
   end
+
+  bash 'link-startup-script' do
+    cwd node[:exist][:install_path]
+    code "ln -s #{node[:exist][:install_path]}/tools/wrapper/bin/exist.sh /etc/init.d/exist ; chmod 0755 /etc/init.d/exist"
+  end
+
+  service "exist" do
+    supports :start => true, :stop => true, :restart => true
+    action [:enable, :start]
+  end
 end
