@@ -15,10 +15,10 @@
 #
 
 Vagrant::Config.run do |config|
-  # using box from http://s3.lds.li/vagrant/lucid32.box 
-  config.vm.box = "lucid32"
+  # using box from http://s3.lds.li/vagrant/lucid32v2.box
+  config.vm.box = "lucid32v2"
 
   config.vm.provisioner = :chef_solo
-  config.chef.cookbooks_path = "cookbooks"
+  config.chef.cookbooks_path = ["../../cookbooks", "cookbooks"]
 end
 
