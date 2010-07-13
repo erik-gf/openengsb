@@ -29,7 +29,7 @@ unless FileTest.exists?(node[:servicemix][:install_path])
       EOB
   end
 
-  remote_file "#{node[:servicemix][:install_path]}/bin/servicemix" do
+  cookbook_file "#{node[:servicemix][:install_path]}/bin/servicemix" do
     source "servicemix"
     backup false
     mode 0755
