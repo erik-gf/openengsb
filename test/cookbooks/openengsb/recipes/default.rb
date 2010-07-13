@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+include_recipe 'exist'
 include_recipe 'servicemix'
 
 bash 'deploy-openengsb' do
